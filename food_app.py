@@ -2,7 +2,7 @@ import mlab
 from datetime import *
 from flask import *
 from mongoengine import *
-from models.service import Service
+from models.recipe import Recipe
 from models.customer import Customer
 from models.user import User
 from models.order import Order
@@ -30,16 +30,16 @@ def search(g):
         all_service = all_service
     )
 
-@app.route('/customer/<int:g>')
-def customer(g):
-    all_customer = Customer.objects[:10](
+@app.route('/user/<int:g>')
+def user(g):
+    all_customer = user.objects[:10](
         gender = g,
         contacted = False
     )
 
     return render_template(
         'customer.html',
-        all_customer = all_customer
+        all_user = all_user
     )
 
 @app.route('/admin')
@@ -49,35 +49,35 @@ def admin():
         'admin.html', all_service = all_service
     )
 
-@app.route('/delete/<service_id>')
+@app.route('/delete/<recipe_id>')
 def delete(service_id):
-    service = Service.objects.with_id(service_id)
-    if service is not None:
-        service.delete()
-        return redirect(url_for('admin'))
+    recipe = Recipe.objects.with_id(recipe_id)
+    if recipe is not None:
+        recipe.delete()
+        return redirect(url_for('user'))
     else:
         return "ID not found"
 
-@app.route('/new-service', methods = ['GET', 'POST'])
+@app.route('/new-recipe', methods = ['GET', 'POST'])
 def create():
     if request.method == 'GET':
-        return render_template('new-service.html')
+        return render_template('new-recipe.html')
     elif request.method == 'POST':
         form = request.form
         name = form['name']
-        yob = form['yob']
-        phone = form['phone']
-        gender = form['gender']
+        servings = form['servings']
+        time = form['time']
+        ingredients = form['ingredients']
 
-        new_service = Service(
+        new_recipe = Recipe(
             name = name,
-            yob = yob,
-            phone = phone,
-            gender = gender
+            servings = servings,
+            time = time,
+            ingredients = ingredients
         )
-        new_service.save()
+        new_recipe.save()
 
-        return redirect(url_for('admin'))
+        return redirect(url_for('user'))
 
 @app.route('/detail/<service_id>')
 def detail(service_id):
@@ -91,11 +91,11 @@ def detail(service_id):
     else:
         return redirect(url_for('login'))
     
-@app.route('/update_service/<service_id>', methods = ['GET', 'POST'])
-def update_service(service_id):
-    service = Service.objects.with_id(service_id)
+@app.route('/update_recipe/<recipe_id>', methods = ['GET', 'POST'])
+def update_recipe(recipe_id):
+    recipe = Recipe.objects.with_id(Recipe_id)
     if request.method == 'GET':
-        return render_template('update_service.html', service = service)
+        return render_template('update_service.html', recipe = recipe)
     elif request.method == 'POST':
 
         form = request.form
@@ -108,7 +108,7 @@ def update_service(service_id):
         service.update(measurements = form['measurements'])
         service.save()
 
-        return redirect(url_for('admin'))
+        return redirect(url_for('user'))
 
 @app.route('/sign_in', methods = ['GET', 'POST'])
 def sign_in():

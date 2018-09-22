@@ -5,4 +5,6 @@ class Recipe(Document):
     servings = IntField()
     image = StringField()
     ingredients = ListField()
+    upvote = IntField()
+    
     
