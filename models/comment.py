@@ -1,9 +1,9 @@
 from mongoengine import *
 
-class Celebrity(Document):
+class Comment(Document):
     name = StringField()
-    dod = DateTimeField()
-    occupation = StringField()
+    time = DateTimeField()
+    comment = StringField()
     memorable = StringField()
 
     

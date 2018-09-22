@@ -16,9 +16,9 @@ mlab.connect()
 def index():
     return render_template('index.html')
 
-@app.route('/search/<str:i>')
-def search(g):
-    all_service = Service.objects(
+@app.route('/search/<str:ing>')
+def search(Ing):
+    all_service = Recipe.objects(
         gender = g, 
         # yob__lte = 1998, 
         # height__gte = 165,
