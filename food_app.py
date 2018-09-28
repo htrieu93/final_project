@@ -142,30 +142,48 @@ def sign_in():
         
         return "User created"
 
+# @app.route('/login', methods = ['GET', 'POST'])
+# def login():
+#     if request.method == 'GET':
+#         return render_template('login.html')
+#     elif request.method == 'POST':
+#         form = request.form
+#         username = form['username']
+#         password = form['password']
+
+#         found_user = User.objects(
+#             username = username,
+#             password = password
+#         )
+        
+#         if form['login'] == 'Login':
+#             if found_user != None:
+#                 session['loggedin'] = True
+#                 service_id = session['service_id']
+#                 session['user_id'] = str(found_user.first().id)
+#                 return redirect(url_for('detail', service_id = service_id))
+#             else:
+#                 return "User does not exist. Please try again."
+#         elif form['login'] == 'Đăng Ký':
+#             return redirect(url_for('sign_in'))
+
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
         form = request.form
-        username = form['username']
-        password = form['password']
-
-        found_user = User.objects(
-            username = username,
-            password = password
-        )
-        
-        if form['login'] == 'Login':
-            if found_user != None:
-                session['loggedin'] = True
-                service_id = session['service_id']
-                session['user_id'] = str(found_user.first().id)
-                return redirect(url_for('detail', service_id = service_id))
+        username = form["username"]
+        password = form["password"]
+        login = form["login"]
+        if login == "Login":
+            if username == "admin" and password == "admin":
+                session["loggedin"]=True
+                return redirect(url_for("admin")) #hay submit page idk
             else:
-                return "User does not exist. Please try again."
-        elif form['login'] == 'Đăng Ký':
-            return redirect(url_for('sign_in'))
+                return "Viết admin trước dồi tính"
+        elif login == "Đăng Ký":
+            return redirect(url_for("sign_in"))
 
 @app.route('/order')
 def order():
