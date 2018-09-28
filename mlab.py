@@ -5,7 +5,7 @@ import mongoengine
 host = "ds263832.mlab.com"
 port = 63832
 db_name = "final_project_c4e20"
-user_name = "htrieu93"
+user_name = "htrieu"
 password = "prototype101"
 
 

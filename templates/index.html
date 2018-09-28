@@ -4,30 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mùa đông không lạnh</title>
-    {% include "meta-data.html" %}
+    <title>Website's name</title>
 </head>
 <body>
-    <!-- <h1>Mùa Đông Không Lạnh</h1>
+    <h1>Food Recipes </h1>
     <div>
-        <a href="{{ url_for('admin')}}"> Quản lý</a>
+        <a href="{{ url_for('admin')}}">Admin login</a>
     </div>
     <br>
+    <form method = 'post'>
+        <label> Ingredients </label>
+        <input type = 'text' name = 'ingredients' value = "What's in your fridge ...">
+        <br>
+        <input type = 'submit' value = "Search for a recipe">
+        <br>
+        <!-- Hint: Set default input value -->
+        <!-- Radio button -->
+    </form>
     <div>
-        <a href = "{{ url_for('search', g = 0) }}"> Click vào em đi! </a>
-        <a href = "{{ url_for('search', g = 1) }}"> Click vào anh đi! </a>
-    </div>
-    <br>
-    <div>
-        <a href = "{{ url_for('customer', g = 0) }}"> Khứa zai đây </a>
-    </div> -->
-    {% include "homepage/navigation.html" %}
-    {% include "homepage/carousel.html" %}
-    {% include "homepage/welcome.html" %}
-    {% include "homepage/custchoice.html" %}
-    {% include "homepage/card.html" %}
-    <div class = 'text-center font-weight-bold text-light bg-dark' style = 'height: 80px; font-size: 150%'>
-        <div class = 'py-4'>Được thực hiện bởi Techkids</div>
+        <a href = "{{ url_for('user', g = 0) }}"> Users info </a>
     </div>
 </body>
 </html>

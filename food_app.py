@@ -3,7 +3,6 @@ from datetime import *
 from flask import *
 from mongoengine import *
 from models.recipe import Recipe
-from models.customer import Customer
 from models.user import User
 from models.order import Order
 from gmail import GMail, Message
@@ -12,30 +11,33 @@ app = Flask(__name__)
 app.secret_key = 'a super super secret key'
 mlab.connect()
 
-@app.route('/')
+@app.route('/', methods = ['POST', 'GET'])
 def index():
-    return render_template('index.html')
+    if request.method == 'GET':
+        return render_template('index.html')
+    elif request.method == 'POST':
+        form = request.form
+        ingredients = form['ingredients']
 
-@app.route('/search/<str:ing>')
-def search(Ing):
-    all_service = Recipe.objects(
-        gender = g, 
-        # yob__lte = 1998, 
-        # height__gte = 165,
-        # address__icontains = "Hanoi" 
+        print(ingredients)
+        return redirect(url_for('search', ingredients = ingredients))
+
+@app.route('/search/<string:ingredients>')
+def search(ingredients):
+    ingredients_list = ingredients.split(',')
+    print(ingredients_list)
+    all_recipe = Recipe.objects(
+        ingredients__all = ingredients_list
     )
 
     return render_template(
         'search.html',
-        all_service = all_service
+        all_recipe = all_recipe
     )
 
-@app.route('/user/<int:g>')
-def user(g):
-    all_customer = user.objects[:10](
-        gender = g,
-        contacted = False
-    )
+@app.route('/user/')
+def user():
+    all_user = User.objects()
 
     return render_template(
         'customer.html',
