@@ -14,7 +14,7 @@
         <p>Time of day: {{recipe.time_of_day}} </p>
         <p>Time: {{recipe.time}} min(s) </p>
         <p>Upvote: {{recipe.upvote}} </p>
-        <a href = "{{url_for('detail')}}">More details</a>
+        <a href = "{{url_for('detail', recipe_id = recipe._id)}}">More details</a>
     </div>
     <br>
     <br>

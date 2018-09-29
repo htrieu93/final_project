@@ -1,4 +1,5 @@
 import mlab
+from pymongo import *
 from datetime import *
 from flask import *
 from mongoengine import *
@@ -25,10 +26,20 @@ def index():
 @app.route('/search/<string:ingredients>')
 def search(ingredients):
     ingredients_list = ingredients.split(',')
-    print(ingredients_list)
-    all_recipe = Recipe.objects(
-        ingredients__all = ingredients_list
-    )
+    client = MongoClient('mongodb://htrieu:prototype101@ds263832.mlab.com:63832/final_project_c4e20')
+    db = client['final_project_c4e20']
+    all_recipe = []
+    col = db.recipe.find({})
+    for doc in col:
+        ing = doc['ingredients']
+        count = 0
+        for item in ingredients_list:
+            item = item.strip()
+            l = [x for x in ing if (item in x or item == x)]
+            if len(l) != 0:
+                count += 1 
+        if count == len(ingredients_list):
+            all_recipe.append(doc)
 
     return render_template(
         'search.html',
@@ -40,7 +51,7 @@ def user():
     all_user = User.objects()
 
     return render_template(
-        'customer.html',
+        'user.html',
         all_user = all_user
     )
 
@@ -81,34 +92,35 @@ def create():
 
         return redirect(url_for('user'))
 
-@app.route('/detail/<service_id>')
-def detail(service_id):
-    service = Service.objects.with_id(service_id)
-    session['service_id'] = service_id
-    if 'loggedin' in session:
-        if session['loggedin'] == True:
-            return render_template('detail.html', service = service)
-        else:  
-            return redirect(url_for('login'))
-    else:
-        return redirect(url_for('login'))
+@app.route('/detail/<recipe_id>')
+def detail(recipe_id):
+    recipe = Recipe.objects.with_id(recipe_id)
+    session['recipe_id'] = recipe_id
+    # if 'loggedin' in session:
+    #     if session['loggedin'] == True:
+    return render_template('detail.html', recipe = recipe)
+    #     else:  
+    #         return redirect(url_for('login'))
+    # else:
+    #     return redirect(url_for('login'))
     
 @app.route('/update_recipe/<recipe_id>', methods = ['GET', 'POST'])
 def update_recipe(recipe_id):
-    recipe = Recipe.objects.with_id(Recipe_id)
+    recipe = Recipe.objects.with_id(recipe_id)
     if request.method == 'GET':
-        return render_template('update_service.html', recipe = recipe)
+        return render_template('update_recipe.html', recipe = recipe)
     elif request.method == 'POST':
 
         form = request.form
         
         #mongoengine_update
-        service.update(name = form['name'])
-        service.update(yob = form['yob'])
-        service.update(phone = form['phone'])
-        service.update(descriptions = form['descriptions'])
-        service.update(measurements = form['measurements'])
-        service.save()
+        recipe.update(name = form['name'])
+        recipe.update(servings = form['servings'])
+        recipe.update(difficulty = form['difficulty'])
+        recipe.update(time_of_day = form['time_of_day'])
+        recipe.update(ingredients = form['ingredients'])
+        recipe.update(instructions = form['instructions'])
+        recipe.save()
 
         return redirect(url_for('user'))
 
@@ -131,7 +143,8 @@ def sign_in():
             
         username = form['username']
         password = form['password']
-        
+        fullname = form['fullname']
+
         new_user = User(
             username = username,
             password = password,
@@ -188,7 +201,7 @@ def login():
 @app.route('/order')
 def order():
     new_order = Order(
-        service_id = session['service_id'],
+        recipe_id = session['recipe_id'],
         user_id = session['user_id'],
         time = datetime.now(),
         is_accepted = False

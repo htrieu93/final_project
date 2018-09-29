@@ -8,15 +8,12 @@
 </head>
 <body>
     <h1> Users Page </h1>
-    {% for customer in all_customer %}
+    {% for user in all_user %}
         <div>
-            <p> Tên: {{customer.name}} </p>
-            <p> Giới tính: 
-            {{ "Nam" if customer.gender == 0 else "Nữ" }}
-            </p>
-            <p> Công việc: {{customer.job}} </p>
-            <p> Công ty : {{customer.company}} </p>
-            <p> Liên lạc: {{customer.contacted}} </p>
+            <p> Username: {{user.username}} </p>
+            <p> Password: {{user.password}} </p>
+            <p> Fullname: {{user.fullname}} </p>
+            <p> Email: {{user.email}} </p>
             <hr>
         </div>
     {% endfor %}

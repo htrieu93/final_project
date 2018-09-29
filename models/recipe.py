@@ -8,6 +8,6 @@ class Recipe(Document):
     upvote = IntField(default = 0)
     difficulty = StringField()
     time_of_day = ListField()
-    descriptions = StringField()
+    instructions = StringField()
 
     
