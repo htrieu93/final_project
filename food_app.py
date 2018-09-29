@@ -68,14 +68,18 @@ def create():
         form = request.form
         name = form['name']
         servings = form['servings']
-        time = form['time']
-        ingredients = form['ingredients']
+        time_of_day = form['time_of_day']
+        ingredients = form['ingredients'] #aa,bb
+        ingredients = ingredients.split(",")
+        ingredients = [i.strip() for i in ingredients]
+        difficulty = form['difficulty']
 
         new_recipe = Recipe(
             name = name,
             servings = servings,
-            time = time,
-            ingredients = ingredients
+            ingredients = ingredients,
+            difficulty = difficulty,
+            time_of_day = time_of_day
         )
         new_recipe.save()
 

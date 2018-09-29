@@ -1,0 +1,48 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Submiting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Submit a recipe</h1>
+    <form method="POST">
+        <label>Name</label>
+        <input type="text" name= "name">
+        <br>
+
+        <label>Serving</label>
+        <input type="number" name="servings">
+        <br>
+
+        <label>Ingredients</label>
+            <textarea name="ingredients" id="ingredients" cols="30" rows="10"></textarea>
+        <br>
+
+        <label>Difficulty</label>
+        <select id="difficulty" name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <br>
+
+        <label>Time of day</label>
+            <input type="radio" name="breakfast" value="breakfast"> Breakfast<br>
+            <input type="radio" name="lunch" value="lunch"> Lunch<br>
+            <input type="radio" name="dinner" value="dinner"> Dinner<br>
+            <input type="radio" name="other" value="other">Other<br>
+        <br>
+
+        <label>Instructions</label>
+            <textarea name="instructions" id="instructions" cols="30" rows="10"></textarea>
+        <br>
+        <input type = 'submit' value = "Thêm">
+        <br>
+    </form>
+</body>
+</html>
