@@ -79,30 +79,41 @@ def create():
         form = request.form
         name = form['name']
         servings = form['servings']
-        time = form['time']
-        ingredients = form['ingredients']
+        time_of_day = form['time_of_day']
+        ingredients = form['ingredients'] #aa,bb
+        ingredients = ingredients.split(",")
+        ingredients = [i.strip() for i in ingredients]
+        difficulty = form['difficulty']
 
         new_recipe = Recipe(
             name = name,
             servings = servings,
-            time = time,
-            ingredients = ingredients
+            ingredients = ingredients,
+            difficulty = difficulty,
+            time_of_day = time_of_day
         )
         new_recipe.save()
 
-        return redirect(url_for('user'))
+    if 'loggedin' in session:
+        if session['loggedin'] == True:
+            return redirect(url_for('user'))
+        else:  
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
-@app.route('/detail/<recipe_id>')
+@app.route('/detail/<recipe_id>', methods = ['GET', 'POST'])
 def detail(recipe_id):
     recipe = Recipe.objects.with_id(recipe_id)
-    session['recipe_id'] = recipe_id
-    # if 'loggedin' in session:
-    #     if session['loggedin'] == True:
-    return render_template('detail.html', recipe = recipe)
-    #     else:  
-    #         return redirect(url_for('login'))
-    # else:
-    #     return redirect(url_for('login'))
+    if request.method == 'GET':
+        session['recipe_id'] = recipe_id
+        return render_template('detail.html', recipe = recipe)
+    elif request.method == 'POST':
+        if request.form['comment'] = 'Submit':
+            recipe.upvote += 1
+
+        
+        return redirect(url_for('update-recipe', recipe_id = recipe_id))
     
 @app.route('/update_recipe/<recipe_id>', methods = ['GET', 'POST'])
 def update_recipe(recipe_id):
@@ -124,10 +135,10 @@ def update_recipe(recipe_id):
 
         return redirect(url_for('user'))
 
-@app.route('/sign_in', methods = ['GET', 'POST'])
-def sign_in():
+@app.route('/sign_up', methods = ['GET', 'POST'])
+def sign_up():
     if request.method == 'GET':
-        return render_template('sign_in.html')
+        return render_template('sign_up.html')
     elif request.method == 'POST':
         form = request.form
         
@@ -143,7 +154,6 @@ def sign_in():
             
         username = form['username']
         password = form['password']
-        fullname = form['fullname']
 
         new_user = User(
             username = username,
@@ -188,15 +198,26 @@ def login():
         form = request.form
         username = form["username"]
         password = form["password"]
-        login = form["login"]
-        if login == "Login":
+        
+        found_user = User.objects(
+            username = username,
+            password = password
+        )
+
+        # Gop Admin va User login
+        if form[login] == "login":
             if username == "admin" and password == "admin":
-                session["loggedin"]=True
+                session["loggedin"] = True
                 return redirect(url_for("admin")) #hay submit page idk
+            elif found_user != None:
+                session['loggedin'] = True
+                service_id = session['service_id']
+                session['user_id'] = str(found_user.first().id)
+                return redirect(url_for('detail', service_id = service_id))
             else:
-                return "Viết admin trước dồi tính"
+                return "User does not exist. Please try again."
         elif login == "Đăng Ký":
-            return redirect(url_for("sign_in"))
+            return redirect(url_for("sign_up"))
 
 @app.route('/order')
 def order():

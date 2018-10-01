@@ -9,7 +9,7 @@
 <body>
     <h1>Food Recipes </h1>
     <div>
-        <a href="{{ url_for('admin')}}">Admin login</a>
+        <a href="{{ url_for('login')}}">Admin login</a>
     </div>
     <div>
         <a href="{{ url_for('login')}}">User login</a>
@@ -21,11 +21,6 @@
         <br>
         <input type = 'submit' value = "Search for a recipe">
         <br>
-        <!-- Hint: Set default input value -->
-        <!-- Radio button -->
     </form>
-    <div>
-        <a href = "{{ url_for('user', g = 0) }}"> Users info </a>
-    </div>
 </body>
 </html>

@@ -19,10 +19,23 @@
         {% endfor %}
         <p><b>Instructions:</b></p>
         {% for instruction in recipe.instructions %}
-        <p> - instruction</p>
+        <p> - {{instruction}}</p>
         {% endfor %}
         <a href="{{ url_for('order')}}">
             Yêu cầu dịch vụ
         </a>
+        <form method = 'post'>
+            <input type="submit" name = "update" value = "Update">
+        </form>
+        <label>Comment: </label>
+        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        <br>
+        <form method = 'post'>
+            <input type="submit" name = "comment" value = "Submit">
+        </form>
+        <br>
+        {% for comment in recipe.comments %}
+        <p>{{comment}}</p>
+        {% endfor %}
 </body>
 </html>
