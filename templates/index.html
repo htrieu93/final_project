@@ -10,15 +10,13 @@
 <body>
     {% include "homepage/navigation.html" %}
     {% include "homepage/carousel.html" %}
-    <div class = 'text-center color-blue mt-2'> Our Top Favorite Choices</div>
+    <h3 class = 'text-center bg-blue text-light mt-4'> Our Top Favorite Choices</h3>
     {% include "homepage/top-choice.html" %}
     <div class = 'd-flex justify-content-center'>
         <a href = "{{ url_for('new_recipe')}}" class = 'btn bg-blue text-light' role = 'button'>
                 Couldn't find your favorite recipe? Share it with us!
         </a>
     </div> 
-    <div class = 'text-center font-weight-bold text-light bg-blue mt-4' style = 'height: 80px; font-size: 150%'>
-        <div class = 'py-4'></div>
-    </div>   
+    {% include "homepage/social-media.html" %}
 </body>
 </html>

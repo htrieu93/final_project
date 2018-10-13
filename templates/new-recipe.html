@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
+    <title>Share a Recipe</title>
+    {% include "meta-data.html" %}
 </head>
 <body>
-    <h1>Submit a recipe</h1>
-    <form method="POST">
+    {% include "homepage/navigation.html" %}
+    <form method="post">
         <label>Name</label>
         <input type="text" name= "name">
         <br>
@@ -32,19 +34,20 @@
         <br>
 
         <label>Meal Type</label>
-            <input type="radio" name="breakfast" value="breakfast"> Breakfast<br>
-            <input type="radio" name="lunch" value="lunch"> Lunch<br>
-            <input type="radio" name="dinner" value="dinner"> Dinner<br>
-            <input type="radio" name="dinner" value="dinner"> Snack<br>
-            <input type="radio" name="dinner" value="dinner"> Dessert<br>
+            <input type="radio" name="Breakfast" value="breakfast"> Breakfast<br>
+            <input type="radio" name="Lunch" value="lunch"> Lunch<br>
+            <input type="radio" name="Dinner" value="dinner"> Dinner<br>
+            <input type="radio" name="Snack" value="dinner"> Snack<br>
+            <input type="radio" name="Dessert" value="dinner"> Dessert<br>
             <input type="radio" name="other" value="other">Other<br>
         <br>
 
         <label>Instructions</label>
             <textarea name="instructions" id="instructions" cols="30" rows="10"></textarea>
         <br>
-        <input type = 'submit' value = "Thêm">
+        <input type = 'submit' name = "submit" value = "Submit">
         <br>
     </form>
+    {% include "homepage/social-media.html" %}
 </body>
 </html>

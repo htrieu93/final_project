@@ -2,7 +2,7 @@
     <img class = "card-img-top h-500x w-600x bg-contain" src="{{recipe.image}}">
     <div class = "ml-3">
         <h2 style = "font-family: 'Lobster', cursive;"> {{recipe.name}}</h2>
-        <div class="card" style="width: 22rem;">
+        <div class="card" style="width: 30rem;">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     Meal: <i class="far fa-clock"></i> {{recipe.meal_type}} 
@@ -17,14 +17,16 @@
         </div>
         <div class = 'bg-blue container'>
             <div class = 'row'>
-                <div class = 'col-5 h-300x pre-scrollable' style = "font-family: 'Indie Flower', cursive;"> Ingredients:
+                <div class = 'col-5 h-300x pre-scrollable' > 
+                    <h4 style = "font-family: 'Inconsolata', monospace;">Ingredients: </h4>
                     {% for ingredient in recipe.ingredients %}
-                    <div style = "font-family: 'Indie Flower', cursive;"><i class="fas fa-check fa-sm">{{ingredient}}</i></div>
+                    <div style = "font-family: 'Inconsolata', monospace;"><i class="fas fa-check fa-sm"></i> {{ingredient}}</div>
                     {% endfor %}
                 </div>
-                <div class = 'col-7 h-300x pre-scrollable' style = "font-family: 'Inconsolata', monospace;"> Instructions:
+                <div class = 'col-7 h-300x pre-scrollable' style = "font-family: 'Inconsolata', monospace;">
+                    <h4 style = "font-family: 'Inconsolata', monospace;">Instructions: </h4> 
                     {% for instruction in recipe.instructions %}
-                    <div style = "font-family: 'Inconsolata', monospace;"><i class="fas fa-edit fa-sm"></i>{{instruction}}</i></div>
+                    <div style = "font-family: 'Inconsolata', monospace;"><i class="fas fa-edit fa-sm"></i></i> {{instruction}}</div>
                     {% endfor %}
                 </div>
             </div>

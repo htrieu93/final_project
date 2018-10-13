@@ -11,15 +11,15 @@
 }
 
 .bg-blue{
-    background-color:#B0F0F0;
+    background-color:#69ECC3;
 }
 
 .color-blue{
-    color: #B0F0F0;
+    color: #69ECC3;
 }
 
 .border-blue{
-    border-color: #B0F0F0!important;
+    border-color: #69ECC3!important;
 }
 
 .w-150x{
@@ -32,6 +32,10 @@
 
 .w-600x{
     width: 600px;
+}
+
+.h-150x{
+    height: 150px;
 }
 
 .h-200x{

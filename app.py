@@ -24,10 +24,6 @@ def index():
         dinner_rec = db.recipe.find({'meal_type' : 'Dinner'}).limit(1)[0]
         dessert_rec = db.recipe.find({'meal_type' : 'Dessert'}).limit(1)[0]
         re_query = db.recipe.find().sort('upvote',DESCENDING).limit(8)
-        print(breakfast_rec)
-        print(lunch_rec)
-        print(dinner_rec)
-        print(dessert_rec)
         for recipe in re_query:
             recipes.append(recipe)
         return render_template('index.html', 
@@ -103,13 +99,16 @@ def new_recipe():
         servings = form['servings']
         meal_type = form['meal_type']
         ingredients = form['ingredients'] #aa,bb
-        ingredients = ingredients.split(",")
         ingredients = [i.strip() for i in ingredients]
         difficulty = form['difficulty']
         instructions = form['instructions']
+        instructions = ingredients.split("\n")
+        instructions = [i.strip() for i in instructions]
 
         new_recipe = Recipe(
             name = name,
+            time = 0,
+            image = '',
             servings = servings,
             ingredients = ingredients,
             difficulty = difficulty,
@@ -118,13 +117,13 @@ def new_recipe():
         )
         new_recipe.save()
 
-    if 'loggedin' in session:
-        if session['loggedin'] == True:
-            return redirect(url_for('user'))
-        else:  
+        if 'loggedin' in session:
+            if session['loggedin'] == True:
+                return redirect(url_for('index'))
+            else:  
+                return redirect(url_for('login'))
+        else:
             return redirect(url_for('login'))
-    else:
-        return redirect(url_for('login'))
 
 @app.route('/detail/<recipe_id>', methods = ['GET', 'POST'])
 def detail(recipe_id):

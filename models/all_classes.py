@@ -9,15 +9,16 @@ class Comment(Document):
 
 class Recipe(Document):
     # user_id = ListField(ReferenceField(User))
-    name = StringField()
-    servings = IntField()
-    image = StringField()
-    ingredients = ListField()
+    name = StringField(default = '')
+    time = IntField(default = 0)
+    servings = IntField(default = 0)
+    image = StringField(default = '')
+    ingredients = ListField(default = [])
     upvote = IntField(default = 0)
-    difficulty = StringField()
-    meal_type = ListField()
-    instructions = ListField()
-    comment_id = ListField(ReferenceField(Comment))
+    difficulty = StringField(default = '')
+    meal_type = StringField(default = [])
+    instructions = ListField(default = [])
+    comment_id = ListField(ReferenceField(Comment), default = [])
 
 class User(Document):
     username = StringField()

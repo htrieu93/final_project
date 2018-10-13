@@ -8,14 +8,17 @@
             <div class="card-body">
                 <img class="card-img-top bg-cover h-300x" src="{{recipe.image}}" alt="Card image cap">            
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item h-250x">
-                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Meal: {{recipe.meal_type}} </p>
+                    <li class="list-group-item h-150x">
+                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Meal Type: {{recipe.meal_type}} </p>
                         <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Servings: {{recipe.servings}} servings </p>
                         <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Prep Time: {{recipe.time}} mins </p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item d-flex">
                         <a href="{{url_for('detail', recipe_id = recipe._id)}}" class="text-light btn btn-info bg-blue" style = 'width: 130px'>
                             Recipe Details
+                        </a>
+                        <a href="#" class="text-light btn btn-info bg-blue ml-4" style = 'width: 90px'>
+                            <i class="far fa-thumbs-up"></i> {{recipe.upvote}}
                         </a>
                     </li>
                 </ul>
