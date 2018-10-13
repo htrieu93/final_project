@@ -1,18 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-        <a class="navbar-brand f-encode" href="#">Mùa Đông Không lạnh</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-blue px-5 justify-content-between">
+        <a class="navbar-brand f-encode" href="#">Everyone Can Cook</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <form method = 'post' class="form-inline ml-5 pl-5">
+            <button class="btn btn-outline-light btn-sm my-2 my-sm-0" type="submit" name = "search">Search for a recipe</button>
+            <input class="form-control form-control-sm ml-1 mr-sm-2" type="text" name = 'ingredients' placeholder="What's in your fridge ..." aria-label="Search">
+        </form>
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link text-light" href="#">Đăng nhập <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-light" href="{{ url_for('login')}}">User Login <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">Về chúng tôi</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-light" href="#">Blog</a>
+              <a class="nav-link text-light" href="{{ url_for('login')}}">Admin Login <span class="sr-only">(current)</span></a>
             </li>
           </ul>
         </div>

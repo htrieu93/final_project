@@ -1,0 +1,32 @@
+<div class="container d-flex flex-nowrap">
+    <img class = "card-img-top h-500x w-600x bg-contain" src="{{recipe.image}}">
+    <div class = "ml-3 mt-4">
+        <div class="card" style="width: 22rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Meal: <i class="far fa-clock"></i> {{recipe.time_of_day}} 
+                </li>
+                <li class="list-group-item">
+                    Difficulty: <i class="fas fa-tachometer-alt"></i> {{ recipe.difficulty }}
+                </li>
+                <li class="list-group-item">
+                    Servings: <i class="fas fa-utensils"></i> {{ recipe.servings }} people
+                </li>
+            </ul>
+        </div>
+        <div class = 'bg-blue container'>
+            <div class = 'row'>
+                <div class = 'col-5 h-300x pre-scrollable'> Ingredients:
+                    {% for ingredient in recipe.ingredients %}
+                    <div><i class="fas fa-check fa-sm">{{ingredient}}</i></div>
+                    {% endfor %}
+                </div>
+                <div class = 'col-7 h-300x pre-scrollable'> Instructions:
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

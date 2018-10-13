@@ -1,35 +1,43 @@
 import mlab
+import humanize
+from datetime import datetime
 from pymongo import *
-from datetime import *
 from flask import *
 from mongoengine import *
-from models.recipe import Recipe
-from models.user import User
-from models.order import Order
+from models.all_classes import Recipe, Comment, User
+from random import sample
+# from models.user import User, Comment
 from gmail import GMail, Message
 
 app = Flask(__name__)
 app.secret_key = 'a super super secret key'
 mlab.connect()
+client = MongoClient('mongodb://htrieu:prototype101@ds263832.mlab.com:63832/final_project_c4e20')
+db = client['final_project_c4e20']
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
     if request.method == 'GET':
-        return render_template('index.html')
+        recipes = []
+        re_query = db.recipe.find().sort('upvote',DESCENDING).limit(8)
+        for recipe in re_query:
+            recipes.append(recipe)
+        return render_template('index.html', recipes = recipes)
     elif request.method == 'POST':
         form = request.form
-        ingredients = form['ingredients']
-
-        print(ingredients)
-        return redirect(url_for('search', ingredients = ingredients))
+        if 'search' in form:
+            ingredients = form['ingredients']
+            return redirect(url_for('search', ingredients = ingredients))
+        elif 'new-recipe' in form:
+            return redirect(url_for('new_recipe'))
 
 @app.route('/search/<string:ingredients>')
 def search(ingredients):
     ingredients_list = ingredients.split(',')
-    client = MongoClient('mongodb://htrieu:prototype101@ds263832.mlab.com:63832/final_project_c4e20')
-    db = client['final_project_c4e20']
+    # client = MongoClient('mongodb://htrieu:prototype101@ds263832.mlab.com:63832/final_project_c4e20')
+    # db = client['final_project_c4e20']
     all_recipe = []
-    col = db.recipe.find({})
+    col = db.recipe.find().sort('upvote',DESCENDING)
     for doc in col:
         ing = doc['ingredients']
         count = 0
@@ -72,7 +80,7 @@ def delete(service_id):
         return "ID not found"
 
 @app.route('/new-recipe', methods = ['GET', 'POST'])
-def create():
+def new_recipe():
     if request.method == 'GET':
         return render_template('new-recipe.html')
     elif request.method == 'POST':
@@ -84,13 +92,15 @@ def create():
         ingredients = ingredients.split(",")
         ingredients = [i.strip() for i in ingredients]
         difficulty = form['difficulty']
+        instructions = form['instructions']
 
         new_recipe = Recipe(
             name = name,
             servings = servings,
             ingredients = ingredients,
             difficulty = difficulty,
-            time_of_day = time_of_day
+            time_of_day = time_of_day,
+            instructions = instructions
         )
         new_recipe.save()
 
@@ -104,16 +114,48 @@ def create():
 
 @app.route('/detail/<recipe_id>', methods = ['GET', 'POST'])
 def detail(recipe_id):
+    # print(User.objects.filter(comment_id__contains = '5bb4bb555f029f0c88021245'))
+    session['recipe_id'] = recipe_id
     recipe = Recipe.objects.with_id(recipe_id)
+    recipe_comment_list = []
+    for recipe_comment in recipe.comment_id:
+        recipe_comment_list.append(recipe_comment.id)
+    comments = Comment.objects.filter(id__in = recipe_comment_list).order_by('time')
+    form = request.form
+    user_comment_list = []
+    for comment in comments:
+        user_comment = User.objects.filter(comment_id__contains = comment.id)
+        if len(user_comment) > 0:
+            user_comment_dict = {
+                "content": comment.body,
+                "time": timesince(comment.time),
+                "user": user_comment[0].username
+            }
+            user_comment_list.append(user_comment_dict)
     if request.method == 'GET':
-        session['recipe_id'] = recipe_id
-        return render_template('detail.html', recipe = recipe)
+        return render_template('detail.html', recipe = recipe, user_comment_list = user_comment_list)
     elif request.method == 'POST':
-        if request.form['comment'] = 'Submit':
-            recipe.upvote += 1
-
+        if 'loggedin' in session:
+            if session['loggedin'] == True:
+                if 'comment' in request.form:
+                    user = User.objects.with_id(session['user_id'])
+                    new_comment = Comment(
+                        time = datetime.now(),
+                        body = form['body']
+                    )
+                    new_comment.save()
+                    new_comment.reload()
+                    recipe.update(push__comment_id = new_comment)
+                    user.update(push__comment_id = new_comment)
+                    user_comment = User.objects.filter(comment_id__contains = new_comment.id)
+                    return redirect(url_for('detail.html', recipe = recipe, user_comment_list = user_comment_list))
+                elif 'update' in request.form:
+                    return redirect(url_for('update_recipe', recipe_id = recipe_id))
+            else:  
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('login'))
         
-        return redirect(url_for('update-recipe', recipe_id = recipe_id))
     
 @app.route('/update_recipe/<recipe_id>', methods = ['GET', 'POST'])
 def update_recipe(recipe_id):
@@ -163,32 +205,7 @@ def sign_up():
         )
         new_user.save()
         
-        return "User created"
-
-# @app.route('/login', methods = ['GET', 'POST'])
-# def login():
-#     if request.method == 'GET':
-#         return render_template('login.html')
-#     elif request.method == 'POST':
-#         form = request.form
-#         username = form['username']
-#         password = form['password']
-
-#         found_user = User.objects(
-#             username = username,
-#             password = password
-#         )
-        
-#         if form['login'] == 'Login':
-#             if found_user != None:
-#                 session['loggedin'] = True
-#                 service_id = session['service_id']
-#                 session['user_id'] = str(found_user.first().id)
-#                 return redirect(url_for('detail', service_id = service_id))
-#             else:
-#                 return "User does not exist. Please try again."
-#         elif form['login'] == 'Đăng Ký':
-#             return redirect(url_for('sign_in'))
+        return redirect(url_for('login'))
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -205,31 +222,19 @@ def login():
         )
 
         # Gop Admin va User login
-        if form[login] == "login":
+        if form['login'] == "Login":
             if username == "admin" and password == "admin":
                 session["loggedin"] = True
                 return redirect(url_for("admin")) #hay submit page idk
             elif found_user != None:
                 session['loggedin'] = True
-                service_id = session['service_id']
+                recipe_id = session['recipe_id']
                 session['user_id'] = str(found_user.first().id)
-                return redirect(url_for('detail', service_id = service_id))
+                return redirect(url_for('detail', recipe_id = recipe_id))
             else:
                 return "User does not exist. Please try again."
-        elif login == "Đăng Ký":
+        elif form['login'] == "Sign up":
             return redirect(url_for("sign_up"))
-
-@app.route('/order')
-def order():
-    new_order = Order(
-        recipe_id = session['recipe_id'],
-        user_id = session['user_id'],
-        time = datetime.now(),
-        is_accepted = False
-    )
-    new_order.save()
-
-    return "Đã gửi yêu cầu"
 
 @app.route('/order_page')
 def order_page():
@@ -255,6 +260,33 @@ def update_is_accepted(order_id):
 def logout():
     session['loggedin'] = False
     return redirect(url_for('index'))
+
+@app.template_filter()
+def timesince(dt, default="just now"):
+    """
+    Returns string representing "time since" e.g.
+    3 days ago, 5 hours ago etc.
+    """
+
+    now = datetime.utcnow()
+    diff = now - dt
+    
+    periods = (
+        (diff.days / 365, "year", "years"),
+        (diff.days / 30, "month", "months"),
+        (diff.days / 7, "week", "weeks"),
+        (diff.days, "day", "days"),
+        (diff.seconds / 3600, "hour", "hours"),
+        (diff.seconds / 60, "minute", "minutes"),
+        (diff.seconds, "second", "seconds"),
+    )
+
+    for period, singular, plural in periods:
+        
+        if period:
+            return "%d %s ago" % (period, singular if period == 1 else plural)
+
+    return default
 
 if __name__ == '__main__':
   app.run(debug=True)

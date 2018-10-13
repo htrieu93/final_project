@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mùa Đông Không Lạnh</title>
+    <title>Everyone Can Cook</title>
 </head>
 <body>
     <h1> Update service </h1>
@@ -19,10 +19,10 @@
         <input type = 'text' name = 'time_of_day' value = "{{recipe.time_of_day}}">
         <br>
         <label> Ingredients</label>
-        <input type = 'text' name = 'ingredients' value = "{{recipe.ingredients}}">
+        <textarea name= "instructions" id= "instructions" cols="30" rows="10">{{ recipe.ingredients|join('\n') }}</textarea>
         <br>
         <label> Instructions</label>
-        <input type = 'text' name = 'instructions' value = "{{recipe.instructions}}">
+        <textarea name= "instructions" id= "instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
         <br>
         <input type = 'submit' value = "Cập nhật">
         <br>

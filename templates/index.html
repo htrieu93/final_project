@@ -4,23 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Website's name</title>
+    <title>Everyone Can Cook</title>
+    {% include "meta-data.html" %}
 </head>
 <body>
-    <h1>Food Recipes </h1>
-    <div>
-        <a href="{{ url_for('login')}}">Admin login</a>
-    </div>
-    <div>
-        <a href="{{ url_for('login')}}">User login</a>
-    </div>
-    <br>
-    <form method = 'post'>
-        <label> Ingredients </label>
-        <input type = 'text' name = 'ingredients' value = "What's in your fridge ...">
-        <br>
-        <input type = 'submit' value = "Search for a recipe">
-        <br>
-    </form>
+    {% include "homepage/navigation.html" %}
+    {% include "homepage/carousel.html" %}
+    <div class = 'text-center color-blue mt-2'> Our Top Favorite Choices</div>
+    {% include "homepage/top-choice.html" %}
+    <div class = 'd-flex justify-content-center'>
+        <a href = "{{ url_for('new_recipe')}}" class = 'btn bg-blue text-light' role = 'button'>
+                Couldn't find your favorite recipe? Share it with us!
+        </a>
+    </div>    
 </body>
 </html>

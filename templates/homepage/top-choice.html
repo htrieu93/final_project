@@ -1,0 +1,8 @@
+<div class="row justify-content-between mt-3">
+    {% for recipe in recipes %}
+        <div class="col-3 ml-auto text-center flex-wrap">
+            <a href="{{url_for('detail', recipe_id = recipe._id)}}"> <img class="card-img-top rounded h-200x w-200x bg-cover" src="{{recipe.image}}"></a>
+            <div><a class = 'color-blue' href="{{url_for('detail', recipe_id = recipe._id)}}">{{recipe.name}}</a></div>
+        </div>
+    {% endfor %}
+</div>

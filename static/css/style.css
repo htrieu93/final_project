@@ -1,0 +1,51 @@
+.bg-cover{
+    background-size: cover;
+}
+
+.bg-contain{
+    background-size: contain;
+}
+
+.bg-white{
+    background-color: #FAFDFD;
+}
+
+.bg-blue{
+    background-color:#84D5CE;
+}
+
+.color-blue{
+    color: #84D5CE;
+}
+
+.border-blue{
+    border-color: #84D5CE!important;
+}
+
+.w-150x{
+    width: 150px;
+}
+
+.w-200x{
+    width: 200px;
+}
+
+.w-600x{
+    width: 600px;
+}
+
+.h-200x{
+    height: 200px;
+}
+
+.h-300x{
+    height: 300px;
+}
+
+.h-500x{
+    height: 500px;
+}
+
+.h-600x{
+    height: 600px;
+}

@@ -1,0 +1,27 @@
+<form method = 'post'>
+        <input type="submit" name = "update" value = "Update">
+    </form>
+    <form method = 'post'>
+        <label>Comment: </label>
+        <br>
+        <textarea name="body" id="body" rows="3" class = 'rounded border-blue'></textarea>
+        <br>
+        <input type="submit" name = "comment" value = "Submit">
+</form>
+<div class = 'container'>
+    <div class="row justify-content-start mt-3">
+        {% for user_comment in user_comment_list %}
+            <div class="border border-blue col mx-2 mt-3 flex-wrap rounded w-150x container">
+                <div class = "row">
+                    <div class = "col-4">
+                        <p class = 'mb-0'> <i class="far fa-user fa-sm"></i> {{user_comment.user}}:</p>
+                        <p>{{user_comment.time}}</p>
+                    </div>
+                    <div class = "col-8">
+                        <p>{{user_comment.content}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
