@@ -25,23 +25,3 @@ class User(Document):
     email = StringField()
     fullname = StringField()
     comment_id = ListField(ReferenceField(Comment))
-# recipes = Recipe.objects()
-
-# for recipe in recipes:
-#     print(type(recipe.comment_id))
-
-new_recipe = Recipe(
-    name = 'QUAN',
-    servings = 3,
-    comment_id = [],
-    instructions = ''
-)
-new_recipe.save()
-
-# new_comment = Comment(
-#     body = 'a'
-# )
-
-# new_comment.save()
-
-# new_recipe.update(push__comment_id = new_comment)

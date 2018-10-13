@@ -1,5 +1,5 @@
 import mlab
-import humanize
+# import humanize
 from datetime import datetime
 from pymongo import *
 from flask import *
@@ -7,7 +7,7 @@ from mongoengine import *
 from models.all_classes import Recipe, Comment, User
 from random import sample
 # from models.user import User, Comment
-from gmail import GMail, Message
+# from gmail import GMail, Message
 
 app = Flask(__name__)
 app.secret_key = 'a super super secret key'
@@ -241,20 +241,20 @@ def order_page():
     all_orders = Order.objects()
     return render_template('order_page.html', all_orders = all_orders)
 
-@app.route('/update_is_accepted/<order_id>')
-def update_is_accepted(order_id):
-    order = Order.objects.with_id(order_id)
-    email = "'" + str(order.user_id.username) + "<" + str(order.user_id.email) + ">'"
-    password = order.user_id.password
-    order.update(is_accepted = True)
-    gmail = GMail(email,password)
-    msg = Message(
-    "Xét duyệt yêu cầu - Mùa Đông Không Lạnh",
-    to=email,
-    text= 'Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của ‘Mùa Đông Không Lạnh’')
-    gmail.send(msg)
+# @app.route('/update_is_accepted/<order_id>')
+# def update_is_accepted(order_id):
+#     order = Order.objects.with_id(order_id)
+#     email = "'" + str(order.user_id.username) + "<" + str(order.user_id.email) + ">'"
+#     password = order.user_id.password
+#     order.update(is_accepted = True)
+#     gmail = GMail(email,password)
+#     msg = Message(
+#     "Xét duyệt yêu cầu - Mùa Đông Không Lạnh",
+#     to=email,
+#     text= 'Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của ‘Mùa Đông Không Lạnh’')
+#     gmail.send(msg)
 
-    return redirect(url_for('order'))
+#     return redirect(url_for('order'))
 
 @app.route('/logout')
 def logout():
