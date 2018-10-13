@@ -1,28 +1,31 @@
 <div class="container d-flex flex-nowrap">
     <img class = "card-img-top h-500x w-600x bg-contain" src="{{recipe.image}}">
-    <div class = "ml-3 mt-4">
+    <div class = "ml-3">
+        <h2 style = "font-family: 'Lobster', cursive;"> {{recipe.name}}</h2>
         <div class="card" style="width: 22rem;">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    Meal: <i class="far fa-clock"></i> {{recipe.time_of_day}} 
+                    Meal: <i class="far fa-clock"></i> {{recipe.meal_type}} 
                 </li>
                 <li class="list-group-item">
                     Difficulty: <i class="fas fa-tachometer-alt"></i> {{ recipe.difficulty }}
                 </li>
                 <li class="list-group-item">
-                    Servings: <i class="fas fa-utensils"></i> {{ recipe.servings }} people
+                    Servings: <i class="fas fa-utensils"></i> {{ recipe.servings }} servings
                 </li>
             </ul>
         </div>
         <div class = 'bg-blue container'>
             <div class = 'row'>
-                <div class = 'col-5 h-300x pre-scrollable'> Ingredients:
+                <div class = 'col-5 h-300x pre-scrollable' style = "font-family: 'Indie Flower', cursive;"> Ingredients:
                     {% for ingredient in recipe.ingredients %}
-                    <div><i class="fas fa-check fa-sm">{{ingredient}}</i></div>
+                    <div style = "font-family: 'Indie Flower', cursive;"><i class="fas fa-check fa-sm">{{ingredient}}</i></div>
                     {% endfor %}
                 </div>
-                <div class = 'col-7 h-300x pre-scrollable'> Instructions:
-
+                <div class = 'col-7 h-300x pre-scrollable' style = "font-family: 'Inconsolata', monospace;"> Instructions:
+                    {% for instruction in recipe.instructions %}
+                    <div style = "font-family: 'Inconsolata', monospace;"><i class="fas fa-edit fa-sm"></i>{{instruction}}</i></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

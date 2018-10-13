@@ -19,10 +19,23 @@ db = client['final_project_c4e20']
 def index():
     if request.method == 'GET':
         recipes = []
+        breakfast_rec = db.recipe.find({'meal_type' : 'Breakfast'}).limit(1)[0]
+        lunch_rec = db.recipe.find({'meal_type' : 'Lunch'}).limit(1)[0]
+        dinner_rec = db.recipe.find({'meal_type' : 'Dinner'}).limit(1)[0]
+        dessert_rec = db.recipe.find({'meal_type' : 'Dessert'}).limit(1)[0]
         re_query = db.recipe.find().sort('upvote',DESCENDING).limit(8)
+        print(breakfast_rec)
+        print(lunch_rec)
+        print(dinner_rec)
+        print(dessert_rec)
         for recipe in re_query:
             recipes.append(recipe)
-        return render_template('index.html', recipes = recipes)
+        return render_template('index.html', 
+        recipes = recipes, 
+        breakfast_rec = breakfast_rec,
+        lunch_rec =  lunch_rec,
+        dinner_rec = dinner_rec,
+        dessert_rec = dessert_rec)
     elif request.method == 'POST':
         form = request.form
         if 'search' in form:
@@ -51,7 +64,8 @@ def search(ingredients):
 
     return render_template(
         'search.html',
-        all_recipe = all_recipe
+        all_recipe = all_recipe,
+        ingredients = ingredients
     )
 
 @app.route('/user/')
@@ -87,7 +101,7 @@ def new_recipe():
         form = request.form
         name = form['name']
         servings = form['servings']
-        time_of_day = form['time_of_day']
+        meal_type = form['meal_type']
         ingredients = form['ingredients'] #aa,bb
         ingredients = ingredients.split(",")
         ingredients = [i.strip() for i in ingredients]
@@ -99,7 +113,7 @@ def new_recipe():
             servings = servings,
             ingredients = ingredients,
             difficulty = difficulty,
-            time_of_day = time_of_day,
+            meal_type = meal_type,
             instructions = instructions
         )
         new_recipe.save()
@@ -170,7 +184,7 @@ def update_recipe(recipe_id):
         recipe.update(name = form['name'])
         recipe.update(servings = form['servings'])
         recipe.update(difficulty = form['difficulty'])
-        recipe.update(time_of_day = form['time_of_day'])
+        recipe.update(meal_type = form['meal_type'])
         recipe.update(ingredients = form['ingredients'])
         recipe.update(instructions = form['instructions'])
         recipe.save()

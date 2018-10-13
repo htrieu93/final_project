@@ -15,8 +15,8 @@ class Recipe(Document):
     ingredients = ListField()
     upvote = IntField(default = 0)
     difficulty = StringField()
-    time_of_day = ListField()
-    instructions = StringField()
+    meal_type = ListField()
+    instructions = ListField()
     comment_id = ListField(ReferenceField(Comment))
 
 class User(Document):

@@ -4,21 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Search Result</title>
+    {% include "meta-data.html" %}
 </head>
 <body>
-    <h1> Show Recipe Page </h1>
-    {% for recipe in all_recipe %}
-    <div>
-        <a href = "{{recipe.image}}"></a>
-        <div>{{recipe.name}}</div>                
-        <p>Time of day: {{recipe.time_of_day}} </p>
-        <p>Time: {{recipe.time}} min(s) </p>
-        <p>Upvote: {{recipe.upvote}} </p>
-        <a href = "{{url_for('detail', recipe_id = recipe._id)}}">More details</a>
-    </div>
-    <br>
-    <br>
-    {% endfor %}
-    </div>
+    {% include "homepage/search-result.html" %}
+    <div class = 'text-center font-weight-bold text-light bg-blue mt-4' style = 'height: 80px; font-size: 150%'>
+            <div class = 'py-4'></div>
+    </div> 
 </body>
 </html>

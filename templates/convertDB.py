@@ -23,15 +23,16 @@ def convert_local_to_url(uri, collection, url_field):
         #Upload file to free host
         try:
           if doc[url_field] == '':
-            continue
+            image_field = '../static/images/not_available.jpg'
           else:
-            path = os.path.join(my_path, doc[url_field])
-            image_file = open(path, 'rb')
-            imager = uploader.upload(image_file)
-            link = imager['url']
-            #return new url to db
-            doc[url_field] = link
-            db[collection].update_one({'_id':doc['_id']}, {"$set": doc}, upsert=False)
+            image_field = doc[url_field]
+          path = os.path.join(my_path, image_field)
+          image_file = open(path, 'rb')
+          imager = uploader.upload(image_file)
+          link = imager['url']
+          #return new url to db
+          doc[url_field] = link
+          db[collection].update_one({'_id':doc['_id']}, {"$set": doc}, upsert=False)
         except KeyError:
           continue
         except OSError:

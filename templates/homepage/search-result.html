@@ -1,29 +1,25 @@
-<h1 class = "text-center my-4" style = "font-family: 'Lobster', sans-serif; color: #DE3575"> Search page </h1>
-    <div class = 'd-flex flex-wrap justify-content-start '>
-        {% for service in all_service %}
-        <div class="card my-3 mx-5" style="width: 25rem; border: 1px solid #DE3575">
-            <div class="card-header text-white font-weight-bold rounded-top" style = "background-color: #DE3575; font-size: 120%">
-                {{service.name}}
+<h2 class = "text-start my-4 color-blue" style = "font-family: 'Lobster', sans-serif"> Search result for: {{ingredients}}</h2>
+    <div class = 'd-flex flex-wrap justify-content-start'>
+        {% for recipe in all_recipe %}
+        <div class="card my-3 mx-5 color-blue" style="width: 25rem; border: 1px solid">
+            <div class="card-header text-white font-weight-bold rounded-top bg-blue" style = " font-size: 120%">
+                {{recipe.name}}
             </div>
             <div class="card-body">
-                {% if service.gender == 0 %}
-                <img class="card-img-top" src="../../static/image/male/male-teaser.jpg" alt="Card image cap">            
-                {% else %}
-                <img class="card-img-top" src="../../static/image/female/female-teaser.png" alt="Card image cap">
-                {% endif %}
+                <img class="card-img-top bg-cover h-300x" src="{{recipe.image}}" alt="Card image cap">            
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" style = 'height: 120px'>
-                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Năm sinh: {{service.yob}} </p>
-                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Chiều cao: {{service.height}} cm </p>
+                    <li class="list-group-item h-250x">
+                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Meal: {{recipe.meal_type}} </p>
+                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Servings: {{recipe.servings}} servings </p>
+                        <p class="card-text text-body" style = "font-family: 'Hind', cursive; font-size: 120%">Prep Time: {{recipe.time}} mins </p>
                     </li>
                     <li class="list-group-item">
-                        <a href="{{ url_for('detail', service_id = service.id) }}" class="text-light btn btn-dark d-flex justify-content-end" style = 'background-color: #DE3575; width: 100px'>
-                            <i class="fas fa-heart mt-2 mr-2"></i>
-                            Chi tiết
+                        <a href="{{url_for('detail', recipe_id = recipe._id)}}" class="text-light btn btn-info bg-blue" style = 'width: 130px'>
+                            Recipe Details
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
